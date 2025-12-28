@@ -1,0 +1,132 @@
+user_agent = "sbir-search/0.1"
+fail_on_no_results = false
+show_warnings = true
+
+[match]
+keywords = [
+  # AI/ML
+  "artificial intelligence",
+  "machine learning",
+  "deep learning",
+  "agentic",
+  "llm",
+  "large language model",
+  "fine-tuning",
+  "fine tuning",
+  "rag",
+  "retrieval augmented generation",
+  "autonomy",
+  "autonomous",
+  "neural network",
+  # Reverse engineering & binary analysis
+  "reverse engineering",
+  "reverse-engineering",
+  "disassembler",
+  "decompiler",
+  "binary analysis",
+  "binary diff",
+  "firmware",
+  "firmware analysis",
+  "emulator",
+  "program analysis",
+  "code analysis",
+  "static analysis",
+  "dynamic analysis",
+  "symbolic execution",
+  "control flow",
+  "data flow",
+  # Security & vulnerability
+  "security",
+  "cybersecurity",
+  "cyber defense",
+  "malware",
+  "malware analysis",
+  "vulnerability",
+  "vulnerability detection",
+  "fuzzing",
+  "software assurance",
+  "software security",
+  "threat analysis",
+  "exploit",
+  "zero-day",
+  # Supply chain & embedded
+  "supply chain",
+  "supply-chain security",
+  "embedded systems",
+  "microelectronics",
+  "hardware security",
+  "anti-tamper",
+  # Mobile/platform specific
+  "mobile security",
+  "ios",
+  "android",
+  "arm64",
+  "aarch64",
+  # Encryption/crypto (relevant to analysis)
+  "encrypted",
+  "cryptanalysis",
+]
+exclude_keywords = []
+min_score = 2
+open_only = true
+agencies = []
+always_include_sources = ["nsf_seedfund", "dod_darpa"]
+match_fields = [
+  "solicitation_title",
+  "topic_title",
+  "topic_description",
+  "subtopic_title",
+  "subtopic_description",
+]
+state_path = ".sbir-search/state.json"
+rows = 50
+max_pages = 40
+retry_max = 5
+retry_backoff_seconds = 5.0
+api_base_urls = [
+  "https://api.www.sbir.gov/public/api/solicitations",
+]
+
+[notify]
+dry_run = false
+# discord_webhook_url = "https://discord.com/api/webhooks/..."
+# discord_bot_token = "your-bot-token"
+# discord_channel_id = "your-channel-id"
+discord_client_enabled = true
+
+[sam]
+enabled = true
+fallback_only = false
+# api_key = "your-sam-api-key"
+title_query = "SBIR"
+posted_days = 365
+limit = 100
+max_pages = 5
+ptype = "o"
+base_url = "https://api.sam.gov/opportunities/v2/search"
+
+[rss]
+enabled = false
+fallback_only = true
+feed_urls = [
+  "https://www.grants.gov/rss/GG_OppNewByAgency.xml",
+  "https://www.grants.gov/rss/GG_OppNewByCategory.xml",
+  "https://www.grants.gov/rss/GG_OppModByAgency.xml",
+  "https://www.grants.gov/rss/GG_OppModByCategory.xml",
+]
+
+[dod]
+enabled = true
+fallback_only = true
+darpa_topics_url = "https://www.darpa.mil/work-with-us/communities/small-business/sbir-sttr-topics"
+
+[nsf]
+enabled = true
+fallback_only = true
+solicitations_url = "https://seedfund.nsf.gov/solicitations/"
+
+[nih]
+enabled = true
+fallback_only = true
+feed_url = "https://grants.nih.gov/grants/guide/newsfeed/fundingopps.xml"
+required_terms = ["sbir", "sttr", "small business"]

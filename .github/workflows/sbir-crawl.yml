@@ -1,0 +1,40 @@
+name: SBIR Crawl
+
+on:
+  schedule:
+    # Daily at 11:00 PST (19:00 UTC)
+    - cron: "0 19 * * *"
+  workflow_dispatch:
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          python-version: "3.11"
+
+      - name: Restore crawler state
+        uses: actions/cache@v4
+        with:
+          path: .sbir-search/state.json
+          key: sbir-search-state-${{ github.run_id }}
+          restore-keys: |
+            sbir-search-state-
+
+      - name: Install dependencies
+        run: |
+          uv venv
+          uv pip install -e .
+
+      - name: Run crawler
+        run: uv run sbir-search --config config.toml
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
